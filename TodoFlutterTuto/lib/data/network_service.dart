@@ -31,7 +31,8 @@ class NetworkService {
     }
   }
 
-  Future<Map?> addTodo(Map<String, String> todoObj) async {
+  Future<Map?> addTodo(Map<String, Object?> todoObj) async {
+    print(todoObj);
     try {
       final response = await post(Uri.parse(baseUrl + "/todo"),
           body: todoObj, headers: headers);
@@ -39,6 +40,7 @@ class NetworkService {
       print(response.body);
       return jsonDecode(response.body);
     } catch (e) {
+      print(e);
       return null;
     }
   }
