@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^7.2.0
+  get_storage:
   fluttertoast: ^8.0.8
   http: ^0.13.3
 
