@@ -22,9 +22,15 @@ class Repository {
     return await networkService.patchTodo(patchObj, id, token);
   }
 
-  Future<Todo?> addTodo(String message) async {
+  Future<Todo?> addTodo(Todo body) async {
     final token = await jwtOrEmpty;
-    final todoObj = {"title": message, "isCompleted": "false"};
+    print("REPO");
+    print(body);
+    final todoObj = {
+      "title": body.todoMessage,
+      "isCompleted": body.isCompleted.toString(),
+      "image": body.image
+    };
 
     final todoMap = await networkService.addTodo(todoObj, token);
     if (todoMap == null) {

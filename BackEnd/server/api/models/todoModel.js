@@ -9,6 +9,9 @@ let TodoSchema = new Schema({
     },
     isCompleted: {
         type: Boolean
+    },
+    image: {
+        type: String
     }
 });
 

@@ -14,7 +14,7 @@ class EditTodoCubit extends Cubit<EditTodoState> {
       : super(EditTodoInitial());
 
   void deleteTodo(Todo todo) {
-    repository!.deleteTodo(todo.id).then((isDeleted) {
+    repository!.deleteTodo(todo.id!).then((isDeleted) {
       if (isDeleted) {
         todoscubitCubit!.deleteTodo(todo);
         emit(TodoEdited());
@@ -27,7 +27,7 @@ class EditTodoCubit extends Cubit<EditTodoState> {
       emit(EditTodoError(error: "Message empty"));
       return;
     }
-    repository!.updateTodo(message, todo.id).then((isEdited) {
+    repository!.updateTodo(message, todo.id!).then((isEdited) {
       if (isEdited) {
         todo.todoMessage = message;
         todoscubitCubit!.updateTodoList();

@@ -42,7 +42,7 @@ class NetworkService {
     }
   }
 
-  Future<Map?> addTodo(Map<String, String> todoObj, String? token) async {
+  Future<Map?> addTodo(Map<String, String?> todoObj, String? token) async {
     try {
       if (token == null) {
         return {};
@@ -55,6 +55,7 @@ class NetworkService {
       print(response.body);
       return jsonDecode(response.body);
     } catch (e) {
+      print(e);
       return null;
     }
   }

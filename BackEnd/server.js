@@ -39,8 +39,9 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-
-
+app.use(express.static(__dirname + '/images'));
+console.log("DIRNAME: " + __dirname + '/images')
+app.use('/images', express.static('images'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

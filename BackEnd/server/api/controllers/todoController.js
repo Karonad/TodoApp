@@ -14,7 +14,6 @@ exports.listAllAnswers = function(req, res) {
 };
 
 exports.SendAnswer = function(req, res) {
-    console.log(req.body);
     let newTodo = new Todo(req.body);
     console.log(newTodo);
     newTodo.save(function(err, task) {
@@ -43,4 +42,3 @@ exports.deleteSingle = function(req, res) {
         res.status(200).send("Todo: "+ todo.title +" was deleted.");
     });
 };
-
