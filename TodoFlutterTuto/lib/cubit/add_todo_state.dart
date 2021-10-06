@@ -16,7 +16,7 @@ class AddingTodo extends AddTodoState {}
 class TodoAdded extends AddTodoState {}
 
 class LocationLoaded extends AddTodoState {
-  final String location;
+  final Position location;
 
   LocationLoaded({required this.location});
 }

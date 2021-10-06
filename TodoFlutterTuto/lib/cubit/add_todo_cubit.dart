@@ -47,7 +47,7 @@ class AddTodoCubit extends Cubit<AddTodoState> {
         .then((Position position) {
       print("AZERTYUIOPQSDFGHJKLMWXCVBN");
       print(position);
-      getAddressFromLatLng(position);
+      emit(LocationLoaded(location: position));
     }).catchError((e) {
       print(e);
     });

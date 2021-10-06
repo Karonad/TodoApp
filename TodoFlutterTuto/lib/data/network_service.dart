@@ -55,6 +55,7 @@ class NetworkService {
       print(response.body);
       return jsonDecode(response.body);
     } catch (e) {
+      print("Wallah y a une erreur ?");
       print(e);
       return null;
     }

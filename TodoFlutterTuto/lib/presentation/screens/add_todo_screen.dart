@@ -40,7 +40,7 @@ class AddTodoScreen extends StatelessWidget {
 }
 
 Widget _body(context) {
-  String position;
+  late String position;
   final controller = TextEditingController();
   BlocProvider.of<AddTodoCubit>(context).getCurrentLocation();
   XFile? image;
@@ -57,9 +57,10 @@ Widget _body(context) {
       ),
       BlocBuilder<AddTodoCubit, AddTodoState>(builder: (context, state) {
         if (state is LocationLoaded) {
-          position = state.location;
+          position =
+              "LAT: ${state.location.latitude}, LNG: ${state.location.longitude}";
           print(position);
-          return Text(position.toString());
+          return Text(position);
         }
         return const Text("Fetching...");
       }),
@@ -85,7 +86,7 @@ Widget _body(context) {
       InkWell(
           onTap: () {
             final path = basename(image!.path);
-            final body = Todo(controller.text, path, false);
+            final body = Todo(controller.text, path, false, position);
             print(body);
             BlocProvider.of<AddTodoCubit>(context).addTodo(body, image!);
           },

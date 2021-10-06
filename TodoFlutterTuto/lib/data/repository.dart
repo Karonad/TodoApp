@@ -29,7 +29,7 @@ class Repository {
     final todoObj = {
       "title": body.todoMessage,
       "isCompleted": body.isCompleted.toString(),
-      "image": body.image
+      "position": body.position.toString()
     };
 
     final todoMap = await networkService.addTodo(todoObj, token);
