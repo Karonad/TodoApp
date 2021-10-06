@@ -1,6 +1,8 @@
+import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todo_app/cubit/add_todo_cubit.dart';
 import 'package:todo_app/data/models/todo.dart';
@@ -38,7 +40,9 @@ class AddTodoScreen extends StatelessWidget {
 }
 
 Widget _body(context) {
+  late String position;
   final controller = TextEditingController();
+  BlocProvider.of<AddTodoCubit>(context).getCurrentLocation();
   XFile? image;
   return Column(
     children: [
@@ -48,6 +52,18 @@ Widget _body(context) {
           decoration: const InputDecoration(
             hintText: "Enter todo message",
           )),
+      const SizedBox(
+        height: 10.0,
+      ),
+      BlocBuilder<AddTodoCubit, AddTodoState>(builder: (context, state) {
+        if (state is LocationLoaded) {
+          position =
+              "LAT: ${state.location.latitude}, LNG: ${state.location.longitude}";
+          print(position);
+          return Text(position);
+        }
+        return const Text("Fetching...");
+      }),
       _image(context),
       InkWell(
           onTap: () async {
@@ -63,7 +79,7 @@ Widget _body(context) {
       InkWell(
           onTap: () {
             final path = basename(image!.path);
-            final body = Todo(controller.text, path, false);
+            final body = Todo(controller.text, path, false, position);
             print(body);
             BlocProvider.of<AddTodoCubit>(context).addTodo(body, image!);
           },

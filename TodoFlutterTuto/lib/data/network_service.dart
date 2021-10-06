@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
+import 'package:todo_app/data/models/todo.dart';
 
 class NetworkService {
   final Map<String, String> headers = {
@@ -47,7 +48,7 @@ class NetworkService {
     }
   }
 
-  Future<Map?> addTodo(String todoMsg, XFile? image, String? token) async {
+  Future<Map?> addTodo(Todo todo, XFile? image, String? token) async {
     try {
       if (token == null) {
         return {};
@@ -61,9 +62,9 @@ class NetworkService {
 
       var request = http.MultipartRequest('POST', Uri.parse(baseUrl + '/todo'))
         ..headers.addAll(headers)
-        ..fields['todoMessage'] = todoMsg
+        ..fields['todoMessage'] = todo.todoMessage
         ..fields['isCompleted'] = 'false'
-        ..fields['isCompleted'] = 'false'
+        ..fields['location'] = todo.position
         ..files.add(http.MultipartFile('image', stream, length,
             filename: basename(imageFile.path),
             contentType: MediaType('image', 'png')));
@@ -71,6 +72,7 @@ class NetworkService {
       final stringedres = await response.stream.bytesToString();
       return jsonDecode(stringedres);
     } catch (e) {
+      print("Wallah y a une erreur ?");
       print(e);
       return null;
     }

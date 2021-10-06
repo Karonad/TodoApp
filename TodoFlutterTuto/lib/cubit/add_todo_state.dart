@@ -20,3 +20,9 @@ class ImageAdded extends AddTodoState {
 }
 
 class TodoAdded extends AddTodoState {}
+
+class LocationLoaded extends AddTodoState {
+  final Position location;
+
+  LocationLoaded({required this.location});
+}

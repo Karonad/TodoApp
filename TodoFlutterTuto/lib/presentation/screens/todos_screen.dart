@@ -44,7 +44,7 @@ Widget _todo(Todo todo, context) {
   return InkWell(
     onTap: () => Navigator.pushNamed(context, editTodoRoute, arguments: todo),
     child: Dismissible(
-      key: Key(todo.id!),
+      key: Key("${todo.id}"),
       child: _todoTile(todo, context),
       confirmDismiss: (_) async {
         BlocProvider.of<TodoscubitCubit>(context).changeCompletion(todo);
@@ -79,8 +79,6 @@ Widget _todoTile(Todo todo, context) {
 }
 
 Widget _completionIndicator(Todo todo) {
-  print("ce todo");
-  print(todo.isCompleted);
   return Container(
     width: 20.0,
     height: 20.0,

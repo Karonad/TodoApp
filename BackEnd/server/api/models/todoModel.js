@@ -12,7 +12,10 @@ let TodoSchema = new Schema({
     },
     image: {
         type: String
-    }
+    },
+    position: {
+        type: String
+    },
 });
 
 module.exports = mongoose.model('Todo', TodoSchema);

@@ -30,8 +30,7 @@ class Repository {
     print("REPO");
     print(body);
 
-    final todoMap =
-        await networkService.addTodo(body.todoMessage, image, token);
+    final todoMap = await networkService.addTodo(body, image, token);
     if (todoMap == null) {
       return null;
     }
