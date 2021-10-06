@@ -29,11 +29,11 @@ const option = {
 
 //config cors
 var corsOptions = {
-    origin: ["http://localhost:12345"],
+    Origin:  ["http://localhost:12345", "http://127.0.0.1:12345"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-    allowedHeaders: 'Content-Type,Authorization, x-xsrf-token, Access-Control-Allow-Origin',
+    allowedHeaders: 'Content-Type,Authorization, x-access-token, x-xsrf-token, Access-Control-Allow-Origin',
     exposedHeaders: 'Content-Range,X-Content-Range, Accept-Ranges, Content-Encoding, Content-Length, Content-Range'
 }
 
@@ -48,10 +48,13 @@ app.use(bodyParser.json());
 
 //Load models
 let Todo = require('./server/api/models/todoModel');
+let User = require('./server/api/models/userModel');
 
 //importing routes
 let todoRoutes = require('./server/api/routes/todoRoutes');
+let loginRoutes = require('./server/api/routes/loginRoutes');
 todoRoutes(app);
+loginRoutes(app);
 
 
 app.use(function(req, res) {
