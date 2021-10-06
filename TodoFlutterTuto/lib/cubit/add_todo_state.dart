@@ -14,3 +14,9 @@ class AddTodoError extends AddTodoState {
 class AddingTodo extends AddTodoState {}
 
 class TodoAdded extends AddTodoState {}
+
+class LocationLoaded extends AddTodoState {
+  final String location;
+
+  LocationLoaded({required this.location});
+}

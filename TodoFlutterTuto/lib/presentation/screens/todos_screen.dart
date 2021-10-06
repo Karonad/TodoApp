@@ -46,7 +46,7 @@ Widget _todo(Todo todo, context) {
   return InkWell(
     onTap: () => Navigator.pushNamed(context, editTodoRoute, arguments: todo),
     child: Dismissible(
-      key: Key(todo.id),
+      key: Key(todo.id!),
       child: _todoTile(todo, context),
       confirmDismiss: (_) async {
         BlocProvider.of<TodoscubitCubit>(context).changeCompletion(todo);
