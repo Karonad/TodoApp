@@ -1,5 +1,3 @@
-import 'package:image_picker/image_picker.dart';
-
 class Todo {
   String todoMessage;
   String? image;

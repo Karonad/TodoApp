@@ -48,12 +48,13 @@ Widget _body(context) {
           decoration: const InputDecoration(
             hintText: "Enter todo message",
           )),
-      const SizedBox(
-        height: 10.0,
-      ),
+      _image(context),
       InkWell(
           onTap: () async {
             image = await pickImage();
+            if (image != null) {
+              BlocProvider.of<AddTodoCubit>(context).addImage(image!);
+            }
           },
           child: _addBtn(context, "Add Picture")),
       const SizedBox(
@@ -85,6 +86,25 @@ Widget _addBtn(context, message) {
         return Text(message, style: const TextStyle(color: Colors.white));
       },
     )),
+  );
+}
+
+Widget _image(context) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 200.0,
+      child: Center(child: BlocBuilder<AddTodoCubit, AddTodoState>(
+        builder: (context, state) {
+          if (state is ImageAdded) {
+            return Image.memory(state.image);
+          }
+          return const Text("ajoutez une image",
+              style: TextStyle(color: Colors.white));
+        },
+      )),
+    ),
   );
 }
 

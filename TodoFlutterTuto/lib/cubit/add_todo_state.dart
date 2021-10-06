@@ -13,4 +13,10 @@ class AddTodoError extends AddTodoState {
 
 class AddingTodo extends AddTodoState {}
 
+class ImageAdded extends AddTodoState {
+  final Uint8List image;
+
+  ImageAdded({required this.image});
+}
+
 class TodoAdded extends AddTodoState {}

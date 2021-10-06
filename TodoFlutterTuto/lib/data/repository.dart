@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:todo_app/data/models/todo.dart';
 import 'package:todo_app/data/network_service.dart';
 
@@ -22,17 +25,13 @@ class Repository {
     return await networkService.patchTodo(patchObj, id, token);
   }
 
-  Future<Todo?> addTodo(Todo body) async {
+  Future<Todo?> addTodo(Todo body, XFile? image) async {
     final token = await jwtOrEmpty;
     print("REPO");
     print(body);
-    final todoObj = {
-      "title": body.todoMessage,
-      "isCompleted": body.isCompleted.toString(),
-      "image": body.image
-    };
 
-    final todoMap = await networkService.addTodo(todoObj, token);
+    final todoMap =
+        await networkService.addTodo(body.todoMessage, image, token);
     if (todoMap == null) {
       return null;
     }
@@ -67,4 +66,8 @@ class Repository {
     if (jwt == null) return "";
     return jwt;
   }
+}
+
+Future<File> transformToFile(XFile imageFile) async {
+  return File(imageFile.path);
 }

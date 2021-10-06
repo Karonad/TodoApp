@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/constants/strings.dart';
 import 'package:todo_app/cubit/todoscubit_cubit.dart';
 import 'package:todo_app/data/models/todo.dart';
-import 'dart:convert' show json, base64, ascii;
 
 class TodosScreen extends StatelessWidget {
   const TodosScreen({Key? key}) : super(key: key);
@@ -31,7 +30,6 @@ class TodosScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             final todos = (state).todos;
-
             return SingleChildScrollView(
               child: Column(
                 children: todos.map((e) => _todo(e, context)).toList(),
@@ -46,7 +44,7 @@ Widget _todo(Todo todo, context) {
   return InkWell(
     onTap: () => Navigator.pushNamed(context, editTodoRoute, arguments: todo),
     child: Dismissible(
-      key: Key(todo.id),
+      key: Key(todo.id!),
       child: _todoTile(todo, context),
       confirmDismiss: (_) async {
         BlocProvider.of<TodoscubitCubit>(context).changeCompletion(todo);
@@ -60,17 +58,24 @@ Widget _todo(Todo todo, context) {
 }
 
 Widget _todoTile(Todo todo, context) {
-  return Container(
-    width: MediaQuery.of(context).size.width,
-    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-    decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Colors.grey))),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [Text(todo.todoMessage), _completionIndicator(todo)],
-    ),
-  );
+  return Column(children: [
+    todo.image != null
+        ? SizedBox(
+            height: 100,
+            child: Image.network('http://localhost:3001/images/' + todo.image!))
+        : const Text("pas d'image disponible"),
+    Container(
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          border: Border(bottom: BorderSide(color: Colors.grey))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [Text(todo.todoMessage), _completionIndicator(todo)],
+      ),
+    )
+  ]);
 }
 
 Widget _completionIndicator(Todo todo) {

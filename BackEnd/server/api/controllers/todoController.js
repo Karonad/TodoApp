@@ -14,7 +14,15 @@ exports.listAllAnswers = function(req, res) {
 };
 
 exports.SendAnswer = function(req, res) {
-    let newTodo = new Todo(req.body);
+    
+    let image = req.file.filename
+    console.log(image);
+    let todo = {
+        "title": req.body.todoMessage,
+        "isCompleted": false,
+        "image": image,
+    }
+    let newTodo = new Todo(todo);
     console.log(newTodo);
     newTodo.save(function(err, task) {
         if (err)

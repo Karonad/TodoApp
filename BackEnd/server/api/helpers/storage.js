@@ -1,26 +1,22 @@
-const multer = require('multer');
-console.log("imhere");
-console.log("Current directory:", process.cwd());
 
-const diskStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './images/');
-  },
-  filename: (req, file, cb) => {
-    const mimeType = file.mimetype.split('/');
-    const fileType = mimeType[1];
-    const fileName = file.originalname + '.' + fileType;
-    cb(null, fileName);
-  },
-});
 
-const fileFilter = (req, file, cb) => {
-  const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-  allowedMimeTypes.includes(file.mimetype) ? cb(null, true) : cb(null, false);
-};
+const multer = require('multer')
 
-const storage = multer({ storage: diskStorage, fileFilter: fileFilter }).single(
-  'myFile'
-);
+const img_type = {
+    'image/jpg':'jpg',
+    'image/jpeg':'jpg',
+    'image/png':'png'
+}
+const stockage_img = multer.diskStorage({
+    
+    destination: (req,file,callback)=>{
+        callback(null, 'images')
+    },
+    filename:(req,file,callback)=>{
+        const name = file.originalname.split(' ').join('_');
+        const extension = img_type[file.mimetype]
+        callback(null,name + Date.now() + '.' +extension)
+    }
+})
 
-module.exports = storage;
+module.exports = multer({storage:stockage_img}).single('image')
