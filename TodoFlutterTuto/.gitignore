@@ -33,7 +33,8 @@
 pubspec.lock
 
 # Web related
-lib/generated_plugin_registrant.dart
+/lib/generated_plugin_registrant.dart
+/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
 
 # Symbolication related
 app.*.symbols
@@ -45,3 +46,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/local.properties
