@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:todo_app/cubit/add_todo_cubit.dart';
 import 'package:todo_app/data/models/todo.dart';
 import 'package:path/path.dart';
+import 'package:todo_app/presentation/screens/google_maps.dart';
 
 class AddTodoScreen extends StatelessWidget {
   const AddTodoScreen({Key? key}) : super(key: key);
@@ -41,50 +42,70 @@ class AddTodoScreen extends StatelessWidget {
 
 Widget _body(context) {
   late String position;
+  late Position localize;
   final controller = TextEditingController();
   BlocProvider.of<AddTodoCubit>(context).getCurrentLocation();
   XFile? image;
-  return Column(
-    children: [
-      TextField(
-          autofocus: true,
-          controller: controller,
-          decoration: const InputDecoration(
-            hintText: "Enter todo message",
-          )),
-      const SizedBox(
-        height: 10.0,
-      ),
-      BlocBuilder<AddTodoCubit, AddTodoState>(builder: (context, state) {
-        if (state is LocationLoaded) {
-          position =
-              "LAT: ${state.location.latitude}, LNG: ${state.location.longitude}";
-          print(position);
-          return Text(position);
-        }
-        return const Text("Fetching...");
-      }),
-      _image(context),
-      InkWell(
-          onTap: () async {
-            image = await pickImage();
-            if (image != null) {
-              BlocProvider.of<AddTodoCubit>(context).addImage(image!);
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        TextField(
+            autofocus: true,
+            controller: controller,
+            decoration: const InputDecoration(
+              hintText: "Enter todo message",
+            )),
+        const SizedBox(
+          height: 10.0,
+        ),
+        _image(context),
+        InkWell(
+            onTap: () async {
+              image = await pickImage();
+              if (image != null) {
+                BlocProvider.of<AddTodoCubit>(context).addImage(image!);
+              }
+            },
+            child: _addBtn(context, "Add Picture")),
+        const SizedBox(
+          height: 20.0,
+        ),
+        BlocBuilder<AddTodoCubit, AddTodoState>(builder: (context, state) {
+          if (state is LocationLoaded) {
+            position =
+                "LAT: ${state.location.latitude}, LNG: ${state.location.longitude}";
+            print(position);
+            return Text(position);
+          }
+          return const Text("Fetching...");
+        }),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Container(
+          height: 300,
+          child: BlocBuilder<AddTodoCubit, AddTodoState>(
+              builder: (context, state) {
+            if (state is LocationLoaded) {
+              localize = state.location;
+              return GoogleMap(localize: localize);
             }
-          },
-          child: _addBtn(context, "Add Picture")),
-      const SizedBox(
-        height: 10.0,
-      ),
-      InkWell(
-          onTap: () {
-            final path = basename(image!.path);
-            final body = Todo(controller.text, path, false, position);
-            print(body);
-            BlocProvider.of<AddTodoCubit>(context).addTodo(body, image!);
-          },
-          child: _addBtn(context, "Add Todo"))
-    ],
+            return const Text("Fetching...");
+          }),
+        ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        InkWell(
+            onTap: () {
+              final path = basename(image!.path);
+              final body = Todo(controller.text, path, false, position);
+              print(body);
+              BlocProvider.of<AddTodoCubit>(context).addTodo(body, image!);
+            },
+            child: _addBtn(context, "Add Todo"))
+      ],
+    ),
   );
 }
 
