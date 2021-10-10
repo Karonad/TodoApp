@@ -106,7 +106,6 @@ Widget _body(context) {
             onTap: () {
               final path = basename(image!.path);
               final body = Todo(controller.text, path, false, position!);
-              print(body);
               BlocProvider.of<AddTodoCubit>(context).addTodo(body, image!);
             },
             child: _addBtn(context, "Add Todo"))

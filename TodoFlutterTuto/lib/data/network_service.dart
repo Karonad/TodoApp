@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
-import 'package:async/async.dart';
 import 'package:todo_app/data/models/todo.dart';
 
 class NetworkService {
@@ -24,7 +21,6 @@ class NetworkService {
       }
       final response =
           await http.get(Uri.parse(baseUrl + "/todo"), headers: headers);
-      print(response.body);
       return jsonDecode(response.body) as List;
     } catch (e) {
       print(e);
@@ -72,7 +68,6 @@ class NetworkService {
       final stringedres = await response.stream.bytesToString();
       return jsonDecode(stringedres);
     } catch (e) {
-      print("Wallah y a une erreur ?");
       print(e);
       return null;
     }
@@ -94,7 +89,6 @@ class NetworkService {
 
   Future<dynamic> attemptLogIn(String username, String password) async {
     try {
-      print('hi mark');
       final response = await http.post(Uri.parse(baseUrl + "/login"),
           body: {"username": username, "password": password}, headers: headers);
       return jsonDecode(response.body);

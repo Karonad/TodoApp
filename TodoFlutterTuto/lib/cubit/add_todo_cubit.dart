@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:todo_app/cubit/todoscubit_cubit.dart';
@@ -19,7 +18,6 @@ class AddTodoCubit extends Cubit<AddTodoState> {
   AddTodoCubit({required this.repository, required this.todoscubitCubit})
       : super(AddTodoInitial());
   void addTodo(Todo body, XFile image) {
-    print(body);
     if (body.todoMessage.isEmpty) {
       emit(AddTodoError(error: "todo message is empty"));
       return;
@@ -45,8 +43,6 @@ class AddTodoCubit extends Cubit<AddTodoState> {
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
         .then((Position position) {
-      print("AZERTYUIOPQSDFGHJKLMWXCVBN");
-      print(position);
       emit(LocationLoaded(location: position));
     }).catchError((e) {
       print(e);

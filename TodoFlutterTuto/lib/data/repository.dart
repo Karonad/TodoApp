@@ -27,8 +27,6 @@ class Repository {
 
   Future<Todo?> addTodo(Todo body, XFile? image) async {
     final token = await jwtOrEmpty;
-    print("REPO");
-    print(body);
 
     final todoMap = await networkService.addTodo(body, image, token);
     if (todoMap == null) {
@@ -51,7 +49,6 @@ class Repository {
 
   Future<User?> login(String username, String password) async {
     final userRaw = await networkService.attemptLogIn(username, password);
-    print(userRaw);
     final userObj = User.fromJson(userRaw);
     return userObj;
   }
