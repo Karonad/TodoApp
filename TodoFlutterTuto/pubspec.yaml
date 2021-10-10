@@ -37,6 +37,7 @@ dependencies:
   geocoding: ^2.0.1
   geolocator: ^7.6.2
   get_storage: null
+  google_maps: ^5.3.0
   http: ^0.13.3
   image_picker: ^0.8.4+2
   socket_io_client: ^1.0.1
