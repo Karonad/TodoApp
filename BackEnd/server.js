@@ -45,7 +45,32 @@ app.use('/images', express.static('images'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+const server = require('http').createServer()
+const io = require('socket.io')(server)
+io.on('connection', function (socket) {
 
+  socket.on("joinRoom", (roomId, username) => {
+    socket.join(roomId);
+    io.to(roomId).emit("sendMessage", username + " joined room " + roomId);
+  });
+  
+  socket.on(
+    "sendMessage",
+    (message, roomId, username) => {
+      io.to(roomId).emit("sendMessage", message, username);
+      console.log(message)
+    }
+  );
+  
+  socket.on('disconnect', function () {
+      console.log('client disconnect...', username);
+    })
+  
+  socket.on('error', function (err) {
+      console.log('received error from client:', username)
+      console.log(err)
+    })
+  })
 
 //Load models
 let Todo = require('./server/api/models/todoModel');
@@ -62,5 +87,5 @@ app.use(function(req, res) {
     res.status(404).send({ url: req.originalUrl + ' is not implemented' })
 });
 
-app.listen(process.env.PORT || port);
-console.log('Morphee : RESTful API server started on: ' + port);
+server.listen(3002);
+app.listen(3001)

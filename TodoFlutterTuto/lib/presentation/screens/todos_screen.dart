@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:todo_app/constants/strings.dart';
 import 'package:todo_app/cubit/todoscubit_cubit.dart';
+import 'package:todo_app/data/models/screen_arguments.dart';
 import 'package:todo_app/data/models/todo.dart';
 
 class TodosScreen extends StatelessWidget {
@@ -41,8 +43,13 @@ class TodosScreen extends StatelessWidget {
 }
 
 Widget _todo(Todo todo, context) {
+  final storage = GetStorage();
   return InkWell(
-    onTap: () => Navigator.pushNamed(context, editTodoRoute, arguments: todo),
+    onTap: () => Navigator.pushNamed(context, editTodoRoute,
+        arguments: ScreenArguments(
+          todo,
+          storage.read("user"),
+        )),
     child: Dismissible(
       key: Key("${todo.id}"),
       child: _todoTile(todo, context),

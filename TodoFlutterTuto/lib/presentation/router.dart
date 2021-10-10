@@ -6,7 +6,7 @@ import 'package:todo_app/cubit/add_todo_cubit.dart';
 import 'package:todo_app/cubit/edit_todo_cubit.dart';
 import 'package:todo_app/cubit/login_cubit.dart';
 import 'package:todo_app/cubit/todoscubit_cubit.dart';
-import 'package:todo_app/data/models/todo.dart';
+import 'package:todo_app/data/models/screen_arguments.dart';
 import 'package:todo_app/data/network_service.dart';
 import 'package:todo_app/data/repository.dart';
 import 'package:todo_app/presentation/screens/add_todo_screen.dart';
@@ -36,13 +36,14 @@ class AppRouter {
                     LoginCubit(repository: repository),
                 child: LoginScreen()));
       case editTodoRoute:
-        final todo = settings.arguments as Todo;
+        ScreenArguments argument = settings.arguments as ScreenArguments;
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                 create: (BuildContext context) => EditTodoCubit(
                     repository: repository, todoscubitCubit: todoscubitCubit),
-                child: EditTodoList(
-                  todo: todo,
+                child: EditTodo(
+                  todo: argument.todo.id!,
+                  username: argument.username,
                 )));
       case addTodoRoute:
         return MaterialPageRoute(

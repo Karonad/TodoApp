@@ -16,11 +16,12 @@ exports.listAllAnswers = function(req, res) {
 exports.SendAnswer = function(req, res) {
     
     let image = req.file.filename
-    console.log(image);
+    console.log(req.body);
     let todo = {
         "title": req.body.todoMessage,
         "isCompleted": false,
         "image": image,
+        "position": req.body.location,
     }
     let newTodo = new Todo(todo);
     console.log(newTodo);

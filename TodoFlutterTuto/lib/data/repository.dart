@@ -49,11 +49,11 @@ class Repository {
     return await networkService.patchTodo(patchObj, id, token);
   }
 
-  Future<String?> login(String username, String password) async {
+  Future<User?> login(String username, String password) async {
     final userRaw = await networkService.attemptLogIn(username, password);
     print(userRaw);
     final userObj = User.fromJson(userRaw);
-    return userObj.token;
+    return userObj;
   }
 
   Future<int?> signup(String username, String password) async {
