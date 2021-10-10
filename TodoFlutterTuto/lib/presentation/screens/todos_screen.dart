@@ -18,6 +18,13 @@ class TodosScreen extends StatelessWidget {
           title: const Text("Todos"),
           actions: [
             InkWell(
+              onTap: () => Navigator.pushNamed(context, loginRoute),
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Center(child: Text("Login")),
+              ),
+            ),
+            InkWell(
               onTap: () => Navigator.pushNamed(context, addTodoRoute),
               child: const Padding(
                 padding: EdgeInsets.all(10.0),

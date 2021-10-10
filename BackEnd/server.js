@@ -62,14 +62,6 @@ io.on('connection', function (socket) {
     }
   );
   
-  socket.on('disconnect', function () {
-      console.log('client disconnect...', username);
-    })
-  
-  socket.on('error', function (err) {
-      console.log('received error from client:', username)
-      console.log(err)
-    })
   })
 
 //Load models
