@@ -1,4 +1,5 @@
-import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -41,8 +42,8 @@ class AddTodoScreen extends StatelessWidget {
 }
 
 Widget _body(context) {
-  late String position;
-  late Position localize;
+  String? position;
+  Position? localize;
   final controller = TextEditingController();
   BlocProvider.of<AddTodoCubit>(context).getCurrentLocation();
   XFile? image;
@@ -71,24 +72,29 @@ Widget _body(context) {
           height: 20.0,
         ),
         BlocBuilder<AddTodoCubit, AddTodoState>(builder: (context, state) {
+          if (position != null) {
+            return Text(position!);
+          }
           if (state is LocationLoaded) {
             position =
                 "LAT: ${state.location.latitude}, LNG: ${state.location.longitude}";
-            print(position);
-            return Text(position);
+            return Text(position!);
           }
           return const Text("Fetching...");
         }),
         const SizedBox(
           height: 10.0,
         ),
-        Container(
+        SizedBox(
           height: 300,
           child: BlocBuilder<AddTodoCubit, AddTodoState>(
               builder: (context, state) {
+            if (localize != null) {
+              return GoogleMap(localize: localize!);
+            }
             if (state is LocationLoaded) {
               localize = state.location;
-              return GoogleMap(localize: localize);
+              return GoogleMap(localize: localize!);
             }
             return const Text("Fetching...");
           }),
@@ -99,7 +105,7 @@ Widget _body(context) {
         InkWell(
             onTap: () {
               final path = basename(image!.path);
-              final body = Todo(controller.text, path, false, position);
+              final body = Todo(controller.text, path, false, position!);
               print(body);
               BlocProvider.of<AddTodoCubit>(context).addTodo(body, image!);
             },
@@ -127,6 +133,7 @@ Widget _addBtn(context, message) {
 }
 
 Widget _image(context) {
+  Uint8List? image;
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: SizedBox(
@@ -134,7 +141,11 @@ Widget _image(context) {
       height: 200.0,
       child: Center(child: BlocBuilder<AddTodoCubit, AddTodoState>(
         builder: (context, state) {
+          if (image != null) {
+            return Image.memory(image!);
+          }
           if (state is ImageAdded) {
+            image = state.image;
             return Image.memory(state.image);
           }
           return const Text("ajoutez une image",
