@@ -19,14 +19,10 @@ class LoginCubit extends Cubit<LoginState> {
       return;
     }
     emit(LoggingIn());
-    repository!.login(username, password).then((token) {
-      print("alors");
-      print(token);
-      if (token != null) {
-        print(token);
-        storage.write("jwt", token);
-        emit(LoggedIn());
-      }
+    repository!.login(username, password).then((user) {
+      storage.write("jwt", user!.token);
+      storage.write("user", user.username);
+      emit(LoggedIn());
     });
   }
 
